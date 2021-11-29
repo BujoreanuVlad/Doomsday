@@ -11,12 +11,15 @@
         android:theme="@style/Theme.Doomsday">
         <activity
             android:name=".Settings"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ModelSelection"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.Doomsday.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

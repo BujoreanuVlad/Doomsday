@@ -1,7 +1,11 @@
 package com.vlad.doomsday;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,48 +14,66 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.navigation.NavigationView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_draw_open, R.string.navigation_draw_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Home()).commit();
+            navigationView.setCheckedItem(R.id.home);
+        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_menu, menu);
-        return true;
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer((GravityCompat.START));
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        switchToActivity(item.getItemId());
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void switchToActivity(int itemId) {
-
-        Intent intent;
-
-        switch (itemId) {
+        switch (item.getItemId()) {
 
             case R.id.home:
-                intent = new Intent(this, MainActivity.class);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new Home()).commit();
                 break;
             case R.id.model_selection:
-                intent = new Intent(this, ModelSelection.class);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new ModelSelection()).commit();
                 break;
             case R.id.settings:
-                intent = new Intent(this, Settings.class);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new Settings()).commit();
                 break;
-            default:
-                intent = new Intent(this, MainActivity.class);
         }
 
-        startActivity(intent);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

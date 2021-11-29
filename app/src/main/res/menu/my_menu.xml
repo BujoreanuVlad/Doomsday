@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn='navigation_view'>
 
-    <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_baseline_6_ft_apart_24"
-        android:title="Home"
-        app:showAsAction="never" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
 
-    <item
-        android:id="@+id/model_selection"
-        android:title="Model Selection"
-        app:showAsAction="never" />
+        <item
+            android:id="@+id/model_selection"
+            android:icon="@drawable/ic_model"
+            android:title="Model Selection" />
 
-    <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_baseline_6_ft_apart_24"
-        android:title="Settings"
-        app:showAsAction="never" />
-
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+    </group>
 </menu>
